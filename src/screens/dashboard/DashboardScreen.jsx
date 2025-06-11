@@ -1,8 +1,7 @@
-// src/screens/dashboard/DashboardScreen.jsx
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Card, Title, Paragraph } from "react-native-paper"; 
-import ClienteService from "../../../services/ClienteService"; 
+import { Card, Title, Paragraph } from "react-native-paper";
+import ClienteService from "../../../services/ClienteService";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function DashboardScreen() {
@@ -18,13 +17,14 @@ export default function DashboardScreen() {
     setTotalClientes(listaClientes.length);
 
     const contagemPorEstado = listaClientes.reduce((acc, cliente) => {
-      const estado = cliente.estado || "Não Informado"; 
+      const estado = cliente.estado || "Não Informado";
+      acc[estado] = (acc[estado] || 0) + 1;
       return acc;
     }, {});
 
     const sortedClientesPorEstado = Object.entries(contagemPorEstado)
-      .sort(([, countA], [, countB]) => countB - countA) 
-      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {}); 
+      .sort(([, countA], [, countB]) => countB - countA)
+      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
 
     setClientesPorEstado(sortedClientesPorEstado);
   }
@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   cardEstado: {
-    backgroundColor: "#313131", 
+    backgroundColor: "#313131",
     borderRadius: 8,
     marginBottom: 10,
     elevation: 3,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   estadoNome: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#E0E0E0", 
+    color: "#E0E0E0",
   },
   estadoCount: {
     fontSize: 18,
